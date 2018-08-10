@@ -564,7 +564,7 @@ func getMergableDefaults() (cafeMaster, coffeeMinion, teaMinion extensions.Ingre
 	lbc = LoadBalancerController{
 		client:       fakeClient,
 		ingressClass: "nginx",
-		cnf:          cnf,
+		configurator: cnf,
 	}
 	lbc.svcLister, _ = cache.NewInformer(
 		cache.NewListWatchFromClient(lbc.client.ExtensionsV1beta1().RESTClient(), "services", "default", fields.Everything()),
@@ -786,7 +786,7 @@ func TestGetServicePortForIngressPort(t *testing.T) {
 	lbc := LoadBalancerController{
 		client:       fakeClient,
 		ingressClass: "nginx",
-		cnf:          cnf,
+		configurator: cnf,
 	}
 	svc := v1.Service{
 		TypeMeta: meta_v1.TypeMeta{},
@@ -940,8 +940,8 @@ func TestFindIngressesForSecret(t *testing.T) {
 			lbc := LoadBalancerController{
 				client:       fakeClient,
 				ingressClass: "nginx",
-				cnf:          cnf,
-				nginxPlus:    true,
+				configurator: cnf,
+				isNginxPlus:  true,
 			}
 
 			lbc.ingLister.Store, _ = cache.NewInformer(
